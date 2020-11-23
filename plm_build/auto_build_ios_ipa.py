@@ -23,7 +23,7 @@ BRANCH_NAME = os.environ.get("BRANCH_NAME")
 if BRANCH_NAME:
     LOCAL_OP = False
     LANGUAGE = os.environ.get('LANGUAGE')
-    VERSION_NUMBER = os.environ.get('VERSION_NUMBER')
+    # VERSION_NUMBER = os.environ.get('VERSION_NUMBER')
     VERSION_TYPE = os.environ.get('VERSION_TYPE')
     IS_PRODUCT = os.environ.get('IS_PRODUCT') == 'true'
     MAJOR_NUMBER = os.environ.get('MAJOR_NUMBER')
@@ -40,7 +40,7 @@ else:
     LOCAL_OP = True
     BRANCH_NAME = 'master'
     LANGUAGE = 'zh_CN'
-    VERSION_NUMBER = ''
+    # VERSION_NUMBER = ''
     VERSION_TYPE = 'Alpha'
     IS_PRODUCT = False
     MAJOR_NUMBER = '0'
@@ -71,8 +71,8 @@ provisioning_profile_specifier = ''
 bundle_id = ''
 
 # 参数判空处理
-if VERSION_NUMBER is None:
-    VERSION_NUMBER = ''
+# if VERSION_NUMBER is None:
+#     VERSION_NUMBER = ''
 
 # unicode编码处理
 APP_SHOW_NAME = APP_SHOW_NAME.decode('utf-8')
@@ -113,11 +113,11 @@ def GetIpaDir():
     return ipa_dir
 
 # Product Update
-def UpdateProduct():
-    if VERSION_NUMBER != '':
-        workspace.up_product(VERSION_NUMBER)
-    else:
-        workspace.up_product()
+# def UpdateProduct():
+#     if VERSION_NUMBER != '':
+#         workspace.up_product(VERSION_NUMBER)
+#     else:
+#         workspace.up_product()
 
 
 # 清除Build残留信息
@@ -460,8 +460,8 @@ def BuildIpa():
         log_tool.show_error('Only mac can build ios ipa')
         exit(1)
 
-    if LOCAL_OP is False:
-        UpdateProduct()
+    # if LOCAL_OP is False:
+    #     UpdateProduct()
 
     #  清除上次构建残留
     ClearBuildInfo()
