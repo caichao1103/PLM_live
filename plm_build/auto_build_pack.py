@@ -16,19 +16,19 @@ BRANCH_NAME = os.environ.get("BRANCH_NAME")
 if BRANCH_NAME:
     LOCAL_OP = False
     LANGUAGE = os.environ.get('LANGUAGE')
-    VERSION_NUMBER = os.environ.get('VERSION_NUMBER')
+    # VERSION_NUMBER = os.environ.get('VERSION_NUMBER')
     PACK_DIRS = os.environ.get('PACK_DIRS')
 else:
     LOCAL_OP = True
     BRANCH_NAME = 'master'
     LANGUAGE = 'zh_CN'
-    VERSION_NUMBER = ''
+    # VERSION_NUMBER = ''
     PACK_DIRS = ''
     
 
 # 参数判空处理
-if VERSION_NUMBER is None:
-    VERSION_NUMBER = ''
+# if VERSION_NUMBER is None:
+#     VERSION_NUMBER = ''
 
 
 # UnityPath
@@ -47,11 +47,11 @@ workspace = WorkSpace(workdirbase, BRANCH_NAME)
 
 
 # Product Update
-def UpdateProduct():
-    if VERSION_NUMBER != '':
-        workspace.up_product(VERSION_NUMBER)
-    else:
-        workspace.up_product()
+# def UpdateProduct():
+#     if VERSION_NUMBER != '':
+#         workspace.up_product(VERSION_NUMBER)
+#     else:
+#         workspace.up_product()
 
 
 # 生成所有脚本路径的配置表
@@ -157,23 +157,23 @@ def BuildPack():
 
 
     # 提交Pack文件
-    if LOCAL_OP is False:
-        root_dir = os.path.join(workspace.unity_project_path, 'Assets/StreamingAssets/Res')
+    # if LOCAL_OP is False:
+    #     root_dir = os.path.join(workspace.unity_project_path, 'Assets/StreamingAssets/Res')
 
-        commit_file = []        
-        for pack_dir in pack_dirs:
-            pack_idx_path = os.path.join(workspace.unity_project_path, 'Assets/StreamingAssets/Res/{}/pack.idx'.format(pack_dir))
-            pack_dat_path = os.path.join(workspace.unity_project_path, 'Assets/StreamingAssets/Res/{}/pack0.dat'.format(pack_dir))
+    #     commit_file = []        
+    #     for pack_dir in pack_dirs:
+    #         pack_idx_path = os.path.join(workspace.unity_project_path, 'Assets/StreamingAssets/Res/{}/pack.idx'.format(pack_dir))
+    #         pack_dat_path = os.path.join(workspace.unity_project_path, 'Assets/StreamingAssets/Res/{}/pack0.dat'.format(pack_dir))
 
-            if os.path.isfile(pack_idx_path) and os.path.isfile(pack_dat_path):
-                commit_file.append(pack_idx_path)
-                commit_file.append(pack_dat_path)
-            else:
-                log_tool.show_error("Can't find {} and {}".format(pack_idx_path, pack_dat_path))
-                exit(1)
+    #         if os.path.isfile(pack_idx_path) and os.path.isfile(pack_dat_path):
+    #             commit_file.append(pack_idx_path)
+    #             commit_file.append(pack_dat_path)
+    #         else:
+    #             log_tool.show_error("Can't find {} and {}".format(pack_idx_path, pack_dat_path))
+    #             exit(1)
 
-        git_tool.git_add(workspace.product_path, root_dir)
-        git_tool.git_commit(workspace.product_path, '[AutoBuild] pack.idx pack0.dat commit.')
+    #     git_tool.git_add(workspace.product_path, root_dir)
+    #     git_tool.git_commit(workspace.product_path, '[AutoBuild] pack.idx pack0.dat commit.')
 
 
 if __name__ == '__main__':
