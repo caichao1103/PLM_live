@@ -49,18 +49,18 @@ if common.is_macos():
 
 
 # Product Update
-def UpdateProduct():
-    if VERSION_NUMBER != '':
-        workspace.up_product(VERSION_NUMBER)
-    else:
-        workspace.up_product()
+# def UpdateProduct():
+#     if VERSION_NUMBER != '':
+#         workspace.up_product(VERSION_NUMBER)
+#     else:
+#         workspace.up_product()
 
 
 # 打包AB
 def BuildAssetBundle():
-    # 先更新到最新
-    if LOCAL_OP is False:
-        UpdateProduct()
+    # # 先更新到最新
+    # if LOCAL_OP is False:
+    #     UpdateProduct()
 
     log_tool.show_info('[REBUILD] --> {}'.format(IS_REBUILD))
     ab_path = os.path.join(workspace.unity_project_path, 'Bundles')
@@ -70,10 +70,6 @@ def BuildAssetBundle():
         # 如果是Rebuild，需要删除库里的Bundles目录
         log_tool.show_info('[AutoBuild] Rebuild AssetBundle, Delete Bundle Direcotory for {}'.format(PLATFORM))
         if os.path.isdir(platform_bundle_path):
-            if LOCAL_OP is False:
-                git_tool.git_delete(workspace.product_path, platform_bundle_path)
-                git_tool.git_commit(workspace.product_path, '[AutoBuild] Rebuild AssetBundle, Delete Bundle Direcotory for {}'.format(PLATFORM))
-            else:
                 shutil.rmtree(platform_bundle_path)
 
         build_function = 'KGame.KAutoBuilderAB.ReBuildAssetBundles{}'.format(PLATFORM)
@@ -101,12 +97,13 @@ def BuildAssetBundle():
         log_tool.show_error("Can't find the path of {}".format(platform_bundle_path))
         exit(1)
 
+    # 不再提交Asset Bundle文件到Git Repo中。
     # 提交AB相关修改文件
-    if LOCAL_OP is False:
-        ab_setting_path = os.path.join(workspace.unity_project_path, 'Setting/Base/FileAbInfoSetting_{}.txt'.format(PLATFORM))
-        git_tool.git_add(workspace.product_path, ab_setting_path)
-        git_tool.git_add(workspace.product_path, platform_bundle_path)
-        git_tool.git_commit(workspace.product_path, '[AutoBuild]: Asset Bundles Rebuild: {} Commit.'.format(IS_REBUILD))
+    # if LOCAL_OP is False:
+    #     ab_setting_path = os.path.join(workspace.unity_project_path, 'Setting/Base/FileAbInfoSetting_{}.txt'.format(PLATFORM))
+    #     git_tool.git_add(workspace.product_path, ab_setting_path)
+    #     git_tool.git_add(workspace.product_path, platform_bundle_path)
+    #     git_tool.git_commit(workspace.product_path, '[AutoBuild]: Asset Bundles Rebuild: {} Commit.'.format(IS_REBUILD))
 
 
 if __name__ == '__main__':
